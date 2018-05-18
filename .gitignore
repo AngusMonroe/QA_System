@@ -56,3 +56,6 @@ freeline_project_description.json
 
 #MacOS
 .DS_Store
+.idea
+*.dat
+*.conf
