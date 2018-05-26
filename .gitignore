@@ -60,6 +60,8 @@ freeline_project_description.json
 *.dat
 *.conf
 data
+*.bak
+resource
 
 # Built application files  
 *.apk  
