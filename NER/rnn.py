@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*
 from tensorflow.contrib.rnn import DropoutWrapper
-from .utils import *
+from utils import *
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 BATCH_SIZE = config.FLAGS.batch_size
@@ -167,7 +169,8 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         sess.run(iterator.initializer)
-        tf.tables_initializer().run()
+        init_op = [tf.global_variables_initializer(), tf.local_variables_initializer(), tf.tables_initializer()]
+        sess.run(init_op)
 
         if action == 'train':
             train(net, iterator, sess)

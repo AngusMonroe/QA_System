@@ -81,6 +81,7 @@ def main():
     train_w2v_model('./data/wiki_cn_jian_sep_removed.txt', './bin/300/w2v_model.bin', './bin/300/w2v_vector.bin')
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
+    main()
     model = gensim.models.Word2Vec.load('./bin/300/w2v_model.bin')
     print(model.most_similar([u'李连杰', u'基金'], [u'成龙']))

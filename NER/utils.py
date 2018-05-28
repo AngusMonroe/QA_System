@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.python.ops import lookup_ops
 import numpy as np
 import collections
-from . import config
+import config
 import os
 
 src_file = config.FLAGS.src_file
@@ -46,7 +46,8 @@ def build_word_index():
                 word = values[0]  # 取词
                 if type(word) is str:
                     word = word.encode('utf8')
-                source.write(word + '\n')
+                # print(type(word))
+                source.write(word.decode() + '\n')
         f.close()
     else:
         print('source vocabulary file has already existed, continue to next stage.')
@@ -99,7 +100,6 @@ def get_class_size():
                 size += 1
     # 最后一个是padding
     return size + 1
-
 
 
 def create_vocab_tables(src_vocab_file, tgt_vocab_file, src_unknown_id, tgt_unknown_id, share_vocab=False):
@@ -247,7 +247,7 @@ def load_word2vec_embedding(vocab_size):
         :return:
     '''
     print('loading word embedding, it will take few minutes...')
-    embeddings = np.random.uniform(-1,1,(vocab_size + 2, embeddings_size))
+    embeddings = np.random.uniform(-1, 1, (vocab_size + 2, embeddings_size))
     # 保证每次随机出来的数一样。
     rng = np.random.RandomState(23455)
     unknown = np.asarray(rng.normal(size=(embeddings_size)))
