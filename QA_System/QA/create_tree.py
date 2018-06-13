@@ -12,15 +12,16 @@ import fnmatch
 import re
 import sys
 from anytree import Node, RenderTree, DoubleStyle,PostOrderIter
-import cPickle as pickle
-reload(sys)
+import pickle as pickle
+import imp
+imp.reload(sys)
 sys.setdefaultencoding('utf8')
 
 original_path = r"./data"
 map_text = r"./data/map.txt"      #储存关键词映射
 dirs = os.listdir( original_path )#所有文件列表
 #print(type(dirs))
-print(len(dirs))
+print((len(dirs)))
 #filename = dirs[0]
 root=Node('root')
 root1=Node("开发者中心")
@@ -87,7 +88,7 @@ for filename in dirs:
                 str.append(soup.title.text)
 
             for j in str:
-                print "%s " % (j),
+                print("%s " % (j), end=' ')
             print('')
 
             for i in range(1, len(str)):
@@ -122,10 +123,10 @@ for filename in dirs:
         #                                          PostOrderIter(root2, filter_=lambda n: n.name == str[i - 1])][0])
 for item in error:
     print(item)
-print len(error)
+print(len(error))
 root1.parent = root
 root2.parent = root
-print(RenderTree(root, style=DoubleStyle).by_attr())
+print((RenderTree(root, style=DoubleStyle).by_attr()))
 fn = 'test.pkl'
 with open(fn, 'w') as f:
     picklestring = pickle.dump(root, f)
