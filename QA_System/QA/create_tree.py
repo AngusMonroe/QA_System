@@ -1,7 +1,9 @@
-#coding=utf8
-__author__ = 'QSHZH'
-__date__ = '2018.06.07'
-
+# -*- coding: utf-8 -*-
+# @Time    : 2018/6/13 23:14
+# @Author  : QSHZH
+# @Email   : qshzh@buaa.edu.cn
+# @File    : create_tree.py
+# @Software: PyCharm
 """
 description:
     构建数据结构树
@@ -12,16 +14,14 @@ import fnmatch
 import re
 import sys
 from anytree import Node, RenderTree, DoubleStyle,PostOrderIter
-import pickle as pickle
-import imp
-imp.reload(sys)
-sys.setdefaultencoding('utf8')
+import pickle
+
 
 original_path = r"./data"
 map_text = r"./data/map.txt"      #储存关键词映射
 dirs = os.listdir( original_path )#所有文件列表
 #print(type(dirs))
-print((len(dirs)))
+print(len(dirs))
 #filename = dirs[0]
 root=Node('root')
 root1=Node("开发者中心")
@@ -31,7 +31,7 @@ ii=0
 for filename in dirs:
     if fnmatch.fnmatch(filename, 'developer.*'): #处理以developer开头的文件
 
-        htmlfile = open(original_path+'/'+filename, 'r')
+        htmlfile = open(original_path+'/'+filename, 'r', encoding='utf8')
         soup = BeautifulSoup(htmlfile.read(), 'lxml')
         titles = soup.select('#content > div.wrapper > div.crumbs > a')
         str = []  #将层次结构存入str数组，然后进行判断
@@ -62,7 +62,7 @@ for filename in dirs:
                             Node(str[i], parent=[node for node in
                                                  PostOrderIter(root1, filter_=lambda n: n.name == str[i - 1])][0])
     elif fnmatch.fnmatch(filename, 'support.*'):#处理以以support开头文件，
-        htmlfile = open(original_path + '/' + filename, 'r')
+        htmlfile = open(original_path + '/' + filename, 'r',encoding='utf8')
         soup = BeautifulSoup(htmlfile.read(), 'lxml')
         titles = soup.select('#content > div.help-cen > div > div.help-main > div.crumbs > a')
         str = []  # 将层次结构存入str数组，然后进行判断
@@ -88,7 +88,7 @@ for filename in dirs:
                 str.append(soup.title.text)
 
             for j in str:
-                print("%s " % (j), end=' ')
+                print("%s" % j,end=' ')
             print('')
 
             for i in range(1, len(str)):
@@ -126,8 +126,8 @@ for item in error:
 print(len(error))
 root1.parent = root
 root2.parent = root
-print((RenderTree(root, style=DoubleStyle).by_attr()))
+print(RenderTree(root, style=DoubleStyle).by_attr())
 fn = 'test.pkl'
-with open(fn, 'w') as f:
+with open(fn, 'wb') as f:
     picklestring = pickle.dump(root, f)
 #print([node for node in PostOrderIter(root1,filter_=lambda n:n.name=='DevOps解决方案')][0].src)
