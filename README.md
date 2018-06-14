@@ -18,12 +18,16 @@
 - `Paper` directory contains important papers related to the project, mainly involving QA system and deep learning
 - `data` directory contains the training data of this project.
 
+### Usage
+
+run `QA_System/NER/main.py`
+
 ### Requirement
 
 - python3.6
 - Android（SDK？）
 - django（？）
-- urllib, urllib2, json
+- urllib, urllib2, json, word2vec, jieba
 
 ### QA
 |标准问题ID（可选）|标准问题（必填）|主题（可选）|答案（必填）|答案链接（必填）|扩展问题（可选，一行一条，最多100条）|

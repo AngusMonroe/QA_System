@@ -49,7 +49,7 @@ def find_answer(keywords, path):
             content.append(sentence)
         if sentence == '法律声明':
             break
-    print(content)
+    # print(content)
 
     num = 0
     sentence_num = 0
