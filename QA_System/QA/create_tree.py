@@ -17,8 +17,8 @@ from anytree import Node, RenderTree, DoubleStyle,PostOrderIter
 import pickle
 
 
-original_path = r"./data"
-map_text = r"./data/map.txt"      #储存关键词映射
+original_path = r"../../data/znwdxtsjykf_cssj/support.huaweicloud.com"
+map_text = r"../../data/map.txt"      #储存关键词映射
 dirs = os.listdir( original_path )#所有文件列表
 #print(type(dirs))
 print(len(dirs))
@@ -128,6 +128,6 @@ root1.parent = root
 root2.parent = root
 print(RenderTree(root, style=DoubleStyle).by_attr())
 fn = 'test.pkl'
-with open(fn, 'wb') as f:
+with open(fn, 'wb') as f: #树对象存入文件中
     picklestring = pickle.dump(root, f)
 #print([node for node in PostOrderIter(root1,filter_=lambda n:n.name=='DevOps解决方案')][0].src)
