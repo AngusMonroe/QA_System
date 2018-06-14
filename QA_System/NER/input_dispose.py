@@ -2,8 +2,9 @@
 import jieba
 import jieba.analyse
 from gensim.models import word2vec
-from anytree import Node, RenderTree, DoubleStyle,PreOrderIter
+from anytree import Node, RenderTree, DoubleStyle, PreOrderIter
 import pickle as pickle
+import logging
 
 __author__ = 'XJX'
 __date__ = '2018.06.13'
@@ -14,6 +15,14 @@ description:
     输入最长为50个字符，超出则不予处理
 """
 
+logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s', level=logging.INFO, filemode = 'a')
+logger = logging.getLogger(__name__)
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
 
 def extract(txt):
     print(txt)
@@ -23,9 +32,9 @@ def extract(txt):
         stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
         txt_key = jieba.analyse.extract_tags(txt, topK=10, withWeight=True)  # 从输入中提取关键词
         txt_key = [word for word in txt_key if word not in stoplist]  # 去停用词
+        logger.info("Input has {0:d} keywords.".format(len(txt_key)))
         return txt_key
     else:
-        print('error')
         return
 
 
@@ -37,7 +46,10 @@ def find_match(keywords):
         print(len(list))
         aim_node = list[0]
         num = 0
+        node_num = 0
         for node in list:
+            node_num += 1
+            logger.info("Find {0:d} nodes.".format(node_num))
             jieba.load_userdict("../../data/user_dict.txt")
             stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
             match_key = jieba.analyse.extract_tags(node.name, topK=10, withWeight=True)  # 从输入中提取关键词
@@ -51,9 +63,11 @@ def find_match(keywords):
 
 def calculate_sentence_vector(keywords, match_key):
     model = word2vec.Word2Vec.load("../../data/ml.model")
-    table = [[0 for i in range(len(keywords))] for j in range(len(match_key))]  # 构建二维数组
+    table = [[0 for i in range(len(match_key))] for j in range(len(keywords))]  # 构建二维数组
+    logger.debug("The table is {0:d} * {1:d}".format(len(table), len(table[0])))
     for d1 in range(len(keywords)):
         for d2 in range(len(match_key)):
+            logger.debug("d1:{0:d} d2:{1:d}".format(d1, d2))
             try:
                 table[d1][d2] = model.similarity(keywords[d1][0], match_key[d2][0])
             except KeyError:
@@ -70,19 +84,20 @@ def calculate_sentence_vector(keywords, match_key):
                     num = table[d1][d2]
                     x = d1
                     y = d2
-        for i in range(len(keywords[d1])):
-            table[d1][i] = 0
-        for i in range(len(match_key[d2])):
-            table[i][d2] = 0
+        logger.debug("x:{0:d} y:{1:d}".format(x, y))
+        for i in range(len(keywords)):
+            table[i][y] = 0
+        for i in range(len(match_key)):
+            table[x][i] = 0
         res += num * keywords[x][1] * match_key[y][1]
     return res
 
 if __name__ == '__main__':
     txt = input("Enter your text:")
     keywords = extract(txt)
-    print(keywords[0][0])
 
     if keywords:
+        print(keywords[0][0])
         src = find_match(keywords)
         print('../../data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src)
     else:
