@@ -15,14 +15,6 @@ description:
     输入最长为50个字符，超出则不予处理
 """
 
-logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s', level=logging.INFO, filemode = 'a')
-logger = logging.getLogger(__name__)
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
-formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-console.setFormatter(formatter)
-logging.getLogger('').addHandler(console)
-
 
 def extract(txt):
     print(txt)
@@ -39,6 +31,7 @@ def extract(txt):
 
 
 def find_match(keywords):
+    logger.info("Start to find file.")
     fn = '../QA/test.pkl'
     with open(fn, 'rb') as f:
         summer = pickle.load(f)
@@ -57,12 +50,11 @@ def find_match(keywords):
             if calculate_sentence_vector(keywords, match_key) > num:
                 num = calculate_sentence_vector(keywords, match_key)
                 aim_node = node
-
+    logger.info("File has already been found.")
     return aim_node.src
 
 
 def calculate_sentence_vector(keywords, match_key):
-    model = word2vec.Word2Vec.load("../../data/ml.model")
     table = [[0 for i in range(len(match_key))] for j in range(len(keywords))]  # 构建二维数组
     logger.debug("The table is {0:d} * {1:d}".format(len(table), len(table[0])))
     for d1 in range(len(keywords)):
@@ -93,6 +85,17 @@ def calculate_sentence_vector(keywords, match_key):
     return res
 
 if __name__ == '__main__':
+    logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s',
+                        level=logging.INFO, filemode='a')
+    logger = logging.getLogger(__name__)
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+    console.setFormatter(formatter)
+    logging.getLogger('').addHandler(console)
+
+    model = word2vec.Word2Vec.load("../../data/ml.model")
+
     txt = input("Enter your text:")
     keywords = extract(txt)
 
