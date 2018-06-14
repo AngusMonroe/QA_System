@@ -15,6 +15,12 @@ description:
     从文件中找到匹配度最高的句子
 """
 
+logger = logging.getLogger(__name__)
+
+model = word2vec.Word2Vec.load("../../data/ml.model")
+jieba.load_userdict("../../data/user_dict.txt")
+stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
+
 
 def find_answer(keywords, path):
     logger.info("Start to find sentence.")
@@ -50,9 +56,8 @@ def find_answer(keywords, path):
     aim_sentence = content[0]
     for sentence in content:
         sentence_num += 1
-        logger.info("Find {0:d} sentence.".format(sentence_num))
-        jieba.load_userdict("../../data/user_dict.txt")
-        stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
+        if sentence_num % 100 == 0:
+            logger.info("Find {0:d} sentence.".format(sentence_num))
         match_key = jieba.analyse.extract_tags(sentence, topK=10, withWeight=True)  # 从输入中提取关键词
         match_key = [word for word in match_key if word not in stoplist]  # 去停用词
         if calculate_sentence_vector(keywords, match_key) > num:
@@ -64,14 +69,11 @@ def find_answer(keywords, path):
 if __name__ == '__main__':
     logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s',
                         level=logging.INFO, filemode='a')
-    logger = logging.getLogger(__name__)
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
-
-    model = word2vec.Word2Vec.load("../../data/ml.model")
 
     txt = input("Enter your text:")
     keywords = extract(txt)
