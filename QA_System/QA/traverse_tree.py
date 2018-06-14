@@ -17,7 +17,8 @@ with open(fn, 'rb') as f:
     summer = pickle.load(f)
 #print(RenderTree(summer, style=DoubleStyle).by_attr())
 
-# root3 = [node for node in PostOrderIter(summer, filter_=lambda n:n.name == '备案中心')]
+root3 = [node for node in PostOrderIter(summer, filter_=lambda n:n.name == '帮助中心')][0]
+print(RenderTree(root3, style=DoubleStyle).by_attr())
 # root2 = [node for node in PostOrderIter(root3[0], filter_=lambda n:n.name == '常见问题 ')]
 # root4 = [node for node in PostOrderIter(root3[0], filter_=lambda n:n.name == '常见问题')]
 # print(RenderTree(root2[0], style=DoubleStyle).by_attr())
@@ -67,7 +68,7 @@ with open(fn, 'rb') as f:
 # for item in error:
 #     print(item)
 # print(len(error))
-
+#
 # fn = 'test.pkl'
 # with open(fn, 'wb') as f: #树对象存入文件中
 #     picklestring = pickle.dump(summer, f)

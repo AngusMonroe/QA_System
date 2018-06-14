@@ -19,7 +19,7 @@ import pickle
 
 original_path = r"../../data/znwdxtsjykf_cssj/support.huaweicloud.com"
 map_text = r"../../data/map.txt"      #储存关键词映射
-dirs = os.listdir( original_path )#所有文件列表
+dirs = os.listdir(original_path)#所有文件列表
 #print(type(dirs))
 print(len(dirs))
 #filename = dirs[0]
