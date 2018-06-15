@@ -11,7 +11,7 @@ public class VALUES {
 
     public static final String ERROR = "<b>呀,不好... 服务器出问题了,这下我真成傻逼了！<b>";
     public static final String INTERNET_ERROR = "<b>你没网不行呀→_→[抠鼻态]<b>";
-    public static final String HELLO = "你叫什么";
+    public static final String HELLO = "您好，我是北航小软，很高兴为您服务~";
     public static String LOCATION = "";
     public static String CITY = "";
     public static double Latitude = 0;

@@ -1,4 +1,5 @@
 import socket
+import main
 
 try:
     sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM);
@@ -22,6 +23,10 @@ while True:
     conn.settimeout(30)
     szBuf=conn.recv(1024)
     print("recv:"+str(szBuf,'utf-8'))
+    m=main
+    json=m.main(str(szBuf,'utf-8'))
+    print(json)
+
 
     if "0"==szBuf:
         conn.send(b"exit")
