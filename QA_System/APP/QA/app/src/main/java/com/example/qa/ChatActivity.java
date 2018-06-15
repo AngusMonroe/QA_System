@@ -1,8 +1,8 @@
 package com.example.qa;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,22 +54,48 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         listView.setSelection(msg_list.size());
     }
 
-    StringBuffer sb;
-    String getData(String msg){
-        return "hhh";
+    private void startNetThread(final String msg) {
+        new Thread() {
+            public String result;
+            public void run() {
+                try {
+                    //创建客户端对象
+                    Socket socket = new Socket("10.17.152.6", 8080);
+                    //获取客户端对象的输出流
+                    OutputStream outputStream = socket.getOutputStream();
+                    //把内容以字节流的形式写入(data).getBytes();
+                    outputStream.write(msg.getBytes());
+                    //刷新流管道
+                    outputStream.flush();
+
+                    //拿到客户端输入流
+                    InputStream is = socket.getInputStream();
+                    byte[] bytes = new byte[1024];
+                    //回应数据
+                    int n = is.read(bytes);
+                    result = new String(bytes, 0, n);
+                    System.out.println(result);
+                    sendData(result,MsgItem.TYPE_ROBOT);
+                    //关闭流
+                    is.close();
+                    //关闭客户端
+                    socket.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            //启动线程
+        }.start();
     }
 
     boolean callRobot(String msg) {
-        String data = getData(msg);
-        if (data.equals("") == true) {
-            sendData(VALUES.INTERNET_ERROR, MsgItem.TYPE_ROBOT);
-            return false;
-        }
-        else if (data.equals("") == false) {
-            sendData(data, MsgItem.TYPE_ROBOT);
+        try {
+            startNetThread(msg);
             return true;
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        else return false;
+        return false;
     }
 
     @Override
