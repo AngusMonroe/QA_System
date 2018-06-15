@@ -62,6 +62,7 @@ freeline_project_description.json
 data
 *.bak
 resource
+__pycache__
 
 # Built application files  
 *.apk  
