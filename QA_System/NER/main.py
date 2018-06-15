@@ -14,7 +14,7 @@ description:
 """
 
 
-def main():
+def main(txt):
     logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s',
                             level=logging.INFO, filemode='a')
     logger = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ def main():
 
     model = word2vec.Word2Vec.load("../../data/ml.model")
 
-    txt = input("Enter your text:")
+
     keywords = extract(txt)
 
     if keywords:
@@ -35,7 +35,7 @@ def main():
         aim_path = '../../data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src
         logger.info("The aim file is: " + aim_path)
         ans = find_answer(keywords, aim_path)
-        # print(ans)
+        print(ans)
         res = [aim_path, ans]
         return json.dumps(res)
     else:
@@ -43,5 +43,6 @@ def main():
         return
 
 if __name__ == '__main__':
-    res = main()
+    txt = input("Enter your text:")
+    res = main(txt)
     print(res)
