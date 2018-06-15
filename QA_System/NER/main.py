@@ -4,6 +4,7 @@ import json
 from gensim.models import word2vec
 from input_dispose import *
 from answer_location import *
+import webbrowser
 
 __author__ = 'XJX'
 __date__ = '2018.06.14'
@@ -26,7 +27,6 @@ def main(txt):
 
     model = word2vec.Word2Vec.load("../../data/ml.model")
 
-
     keywords = extract(txt)
 
     if keywords:
@@ -34,10 +34,15 @@ def main(txt):
         src = find_match(keywords)
         aim_path = '../../data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src
         logger.info("The aim file is: " + aim_path)
-        ans = find_answer(keywords, aim_path)
-        print(ans)
+        if not src == '':
+            ans = find_answer(keywords, aim_path)
+            web = webbrowser.get('chrome')
+            web.open_new('file://' + '/Users/xujiaxing/Documents/GitHub/QA_System/data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src)
+            print(ans)
+        else:
+            ans = ''
         res = [aim_path, ans]
-        return json.dumps(res)
+        return res
     else:
         print('error')
         return
