@@ -27,9 +27,9 @@ run `QA_System/NER/main.py`
 - python3.6
 - Android（SDK？）
 - django（？）
-- urllib, urllib2, json, word2vec, jieba
+- urllib, urllib2, json, word2vec, jieba, anytree
 
-### QA
+### QA Example
 |标准问题ID（可选）|标准问题（必填）|主题（可选）|答案（必填）|答案链接（必填）|扩展问题（可选，一行一条，最多100条）|
 |----------|--------|------|------|--------|---------------------|
 |mls060001|什么是机器学习？|MLS|机器学习(Machine Learning, ML)是一门多领域交叉学科，涉及概率论、统计学、逼近论、凸分析、算法复杂度理论等多门学科。专门研究计算机怎样模拟或实现人类的学习行为，以获取新的知识或技能，重新组织已有的知识结构使之不断改善自身的性能。|文件名：问答对提取的文件名 http://support.huaweicloud.com/usermanual-mls/zh-cn_topic_user_guide.html|机器学习的概念？|
