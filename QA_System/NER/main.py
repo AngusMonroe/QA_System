@@ -31,11 +31,12 @@ def main(txt):
 
     if keywords:
         print(keywords[0][0])
-        src = find_match(keywords)
+        node = find_match(keywords)
+        src = node.src
         aim_path = '../../data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src
         logger.info("The aim file is: " + aim_path)
         if not src == '':
-            ans = find_answer(keywords, aim_path)
+            ans = find_answer(node.name, keywords, aim_path)
             web = webbrowser.get('chrome')
             web.open_new('file://' + '/Users/xujiaxing/Documents/GitHub/QA_System/data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src)
             print(ans)

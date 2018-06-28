@@ -64,7 +64,7 @@ def find_match(keywords):
     logger.info("File has already been found.")
     logger.info("The title of the aim file is: " + aim_node.name)
     try:
-        return aim_node.src
+        return aim_node
     except Exception as e:
         return ''
 
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
     if keywords:
         print(keywords[0][0])
-        src = find_match(keywords)
+        src = find_match(keywords).src
         print('../../data/znwdxtsjykf_cssj/support.huaweicloud.com/' + src)
     else:
         print('error')
