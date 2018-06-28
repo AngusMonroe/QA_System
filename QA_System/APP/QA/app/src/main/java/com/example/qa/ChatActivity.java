@@ -1,8 +1,13 @@
 package com.example.qa;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,7 +37,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_chat);
         init();
-        callRobot(VALUES.HELLO);
+        sendData(VALUES.HELLO,MsgItem.TYPE_ROBOT);
     }
 
     public void init(){
@@ -52,6 +57,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         msgAdapter.notifyDataSetChanged();
         //定位到listview尾部
         listView.setSelection(msg_list.size());
+        listView.callOnClick();
+        listView.invalidate();
     }
 
     private void startNetThread(final String msg) {
@@ -60,7 +67,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 try {
                     //创建客户端对象
-                    Socket socket = new Socket("10.17.152.6", 8080);
+                    Socket socket = new Socket("10.17.145.7", 8080);
                     //获取客户端对象的输出流
                     OutputStream outputStream = socket.getOutputStream();
                     //把内容以字节流的形式写入(data).getBytes();
@@ -75,7 +82,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     int n = is.read(bytes);
                     result = new String(bytes, 0, n);
                     System.out.println(result);
+                    String[] ss=result.split("\n");
+                    System.out.println(ss[0]);
+                    System.out.println(ss[1]);
                     sendData(result,MsgItem.TYPE_ROBOT);
+
                     //关闭流
                     is.close();
                     //关闭客户端
@@ -116,4 +127,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    public class URLSpanNoUnderline extends URLSpan {
+
+        public URLSpanNoUnderline(String url){
+                super(url);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds){
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+            ds.setColor(Color.BLUE);
+        }
+    }
+
 }

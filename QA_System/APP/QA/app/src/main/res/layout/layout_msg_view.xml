@@ -18,6 +18,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:textColor="#fff"
+            android:autoLink="web"
             android:textSize="15dp" />
 
     </LinearLayout>
@@ -36,6 +37,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:textColor="#fff"
+            android:autoLink="web"
             android:textSize="15dp" />
 
     </LinearLayout>

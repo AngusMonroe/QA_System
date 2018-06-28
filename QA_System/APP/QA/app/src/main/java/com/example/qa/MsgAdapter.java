@@ -72,7 +72,6 @@ public class MsgAdapter extends ArrayAdapter<MsgItem> {
             }
         };
 
-
         /**
          * 根据消息发送人动态加载布局
          */
