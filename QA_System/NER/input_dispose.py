@@ -31,6 +31,7 @@ def extract(txt):
         txt_key = jieba.analyse.extract_tags(txt, topK=10, withWeight=True)  # 从输入中提取关键词
         txt_key = [word for word in txt_key if word not in stoplist]  # 去停用词
         logger.info("Input has {0:d} keywords.".format(len(txt_key)))
+        logger.info(txt_key)
         return txt_key
     else:
         return
@@ -50,13 +51,22 @@ def find_match(keywords):
             node_num += 1
             if node_num % 100 == 0:
                 logger.info("Find {0:d} nodes.".format(node_num))
-            match_key = jieba.analyse.extract_tags(node.name, topK=10, withWeight=True)  # 从输入中提取关键词
-            match_key = [word for word in match_key if word not in stoplist]  # 去停用词
-            if calculate_sentence_vector(keywords, match_key) > num:
-                num = calculate_sentence_vector(keywords, match_key)
-                aim_node = node
+            try:
+                if node.src == '':
+                    continue
+                match_key = jieba.analyse.extract_tags(node.name, topK=10, withWeight=True)  # 从输入中提取关键词
+                match_key = [word for word in match_key if word not in stoplist]  # 去停用词
+                if calculate_sentence_vector(keywords, match_key) > num:
+                    num = calculate_sentence_vector(keywords, match_key)
+                    aim_node = node
+            except Exception as e:
+                continue
     logger.info("File has already been found.")
-    return aim_node.src
+    logger.info("The title of the aim file is: " + aim_node.name)
+    try:
+        return aim_node.src
+    except Exception as e:
+        return ''
 
 
 def calculate_sentence_vector(keywords, match_key):
