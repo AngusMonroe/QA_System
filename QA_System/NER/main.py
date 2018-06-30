@@ -16,7 +16,7 @@ description:
 
 
 def main(txt):
-    logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s',
+    logging.basicConfig(filename="../search.log", format='%(asctime)s:%(levelname)s: %(message)s',
                             level=logging.INFO, filemode='a')
     logger = logging.getLogger(__name__)
     console = logging.StreamHandler()
@@ -25,7 +25,7 @@ def main(txt):
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
 
-    model = word2vec.Word2Vec.load("../../data/ml.model")
+    model = word2vec.Word2Vec.load("../ml.model")
 
     keywords = extract(txt)
 

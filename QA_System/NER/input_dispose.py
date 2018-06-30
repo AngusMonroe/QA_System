@@ -17,17 +17,17 @@ description:
 
 logger = logging.getLogger(__name__)
 
-model = word2vec.Word2Vec.load("../../data/ml.model")
-jieba.load_userdict("../../data/user_dict.txt")
-stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
+model = word2vec.Word2Vec.load("../ml.model")
+jieba.load_userdict("../user_dict.txt")
+stoplist = {}.fromkeys([line.strip() for line in open("../stopwords.txt")])
 
 
 def extract(txt):
     print(txt)
 
     if(len(txt) <= 50):
-        jieba.load_userdict("../../data/user_dict.txt")
-        stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
+        jieba.load_userdict("../user_dict.txt")
+        stoplist = {}.fromkeys([line.strip() for line in open("../stopwords.txt")])
         txt_key = jieba.analyse.extract_tags(txt, topK=10, withWeight=True)  # 从输入中提取关键词
         txt_key = [word for word in txt_key if word not in stoplist]  # 去停用词
         logger.info("Input has {0:d} keywords.".format(len(txt_key)))
@@ -100,7 +100,7 @@ def calculate_sentence_vector(keywords, match_key):
     return res
 
 if __name__ == '__main__':
-    logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s',
+    logging.basicConfig(filename="../search.log", format='%(asctime)s:%(levelname)s: %(message)s',
                         level=logging.INFO, filemode='a')
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     else:
         print('error')
 
-    # model = word2vec.Word2Vec.load("../../data/ml.model")
+    # model = word2vec.Word2Vec.load("../ml.model")
     # try:
     #     y1 = model.similarity(u"智能", u"智能")
     # except KeyError:

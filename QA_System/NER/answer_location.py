@@ -17,9 +17,9 @@ description:
 
 logger = logging.getLogger(__name__)
 
-model = word2vec.Word2Vec.load("../../data/ml.model")
-jieba.load_userdict("../../data/user_dict.txt")
-stoplist = {}.fromkeys([line.strip() for line in open("../../data/stopwords.txt")])
+model = word2vec.Word2Vec.load("../ml.model")
+jieba.load_userdict("../user_dict.txt")
+stoplist = {}.fromkeys([line.strip() for line in open("../stopwords.txt")])
 
 
 def find_answer(name, keywords, path):
@@ -77,7 +77,7 @@ def find_answer(name, keywords, path):
     return aim_sentence
 
 if __name__ == '__main__':
-    logging.basicConfig(filename="../../data/search.log", format='%(asctime)s:%(levelname)s: %(message)s',
+    logging.basicConfig(filename="../search.log", format='%(asctime)s:%(levelname)s: %(message)s',
                         level=logging.INFO, filemode='a')
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)

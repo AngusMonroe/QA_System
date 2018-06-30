@@ -95,3 +95,4 @@ captures/
 # Keystore files  
 *.jks  
 
+QA_System/ml.model
