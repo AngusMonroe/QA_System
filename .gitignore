@@ -63,6 +63,7 @@ data
 *.bak
 resource
 __pycache__
+智能问答系统*
 
 # Built application files  
 *.apk  
