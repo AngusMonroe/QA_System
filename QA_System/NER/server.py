@@ -24,10 +24,10 @@ while True:
     szBuf = conn.recv(1024)
 
     print("recv:"+str(szBuf, 'utf-8'))
-    m = main
-    res = m.main(str(szBuf, 'utf-8'))
+    # m = main
+    # res = m.main(str(szBuf, 'utf-8'))
 
-    # res = ['There is a problem with the server.', 'Please contact the administrator to open the service.']
+    res = ['There is a problem with the server.', 'Please contact the administrator to open the service.']
     szBuf = bytes(res[1] + '\n' + res[0], 'utf-8')
 
     if "0" == szBuf:
